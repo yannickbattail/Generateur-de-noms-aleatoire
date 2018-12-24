@@ -1,0 +1,215 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAB1FBMVEUAAAABAQECAgIDAwMEBAQFBQUHBwcICAgJCQkKCgoLCwsMDAwODg4PDw8QEBARERESEhIVFRUXFxcYGBgZGRkbGxscHBwdHR0gICAiIiIjIyMlJSUmJiYnJycpKSkqKiosLCwtLS0uLi4xMTE1NTU2NjY6Ojo8PDw9PT0+Pj4/Pz9BQUFDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1QUFBRUVFTU1NUVFRVVVVXV1deXl5fX19hYWFjY2NlZWVnZ2dpaWlqampsbGxtbW1ubm5zc3N4eHh/f3+AgICDg4OEhISFhYWHh4eJiYmKioqLi4uPj4+RkZGUlJSVlZWXl5eYmJiampqbm5udnZ2enp6fn5+goKChoaGioqKmpqaoqKipqamurq6vr6+wsLCysrKzs7O3t7e4uLi5ubm6urq7u7u8vLy+vr7BwcHHx8fIyMjJycnMzMzNzc3Pz8/Q0NDR0dHS0tLU1NTV1dXW1tbZ2dna2trb29vc3Nze3t7f39/i4uLj4+Pk5OTl5eXm5ubp6enq6uru7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7///+D0/6/AAACA0lEQVQ4y3WTiVdSQRTGP5JKXArMQkNcysQWKqJMsEJLDLNyKW2lMkmtVFrIFtMshSw1REOJ+88289YZD95z3syd+X5v5s7cuYBo9vDM+4sl2NHC88Qsca6wanF/I83G9xfQXU/ItHRv+Xa9O8uFmLe4KqogKy2SHFA2H3bCaQEeqqtMegzZPZNjE9mgpfFH5iZwT9tn81WZql9Sx3OuWsZ1A6NGKP9qFOBMTh3++cWaNpxcHMlowNJBru8pLZ/aNH7Kx5J1QIy7G0PYZ2XAwGwYTXHziNOhhpE066PVuL1wBcqWyXq0rpJo+cV6nF4n6oEW0+Pq4v41U09ex7Ex7hgAbfTC/lLX+6wYViPXgRT7frbC94FPTrmLOv5qqA54a1+wU385Yg28Gffg/Hd+LTc+CcAFB9pZSHTXBlQwllYjwCkBSC88wHG+bNxmn2PdbB1K4JWCpMvgacwdPsEHnqq1O+iTgIwfAd672ngbSVNzWUoE4szxKUCQt1s0gWfSPbCYjk6YAJHDJR2TlidDasI0YBDPDeARd3ydv0kEnk6/VfouBji540eXBMQOKMEu8XTD8W6LUo3XJCCEDpafsd3ao/R/JJqXgJ5oll57hGcd0ROpn4LWg3JdVN7Pi8DKLdv2ytl1KGECo/aC1dnOirOGRZ84u1N1l179XNnwtWWvOPcfkidYVvSuxmQAAAAASUVORK5CYII="/>
+        <style>
+            body {
+                font-family: "Open Sans", sans-serif;
+            }
+            #console {
+                width: 100%;
+                min-height: 100px;
+                border-style: inset;
+                border-width: 1px;
+                font-family: Times;
+            }
+        </style>
+        <title>Générateur de noms aléatoire</title>
+        <script language="javascript">
+            var letters= {
+                "v": ['a', 'e', 'i', 'o', 'u'],
+                "V": ['a', 'e', 'i', 'o', 'u', 'an', 'in', 'on', 'ou', 'é', 'è', 'y', 'eu', 'oi'],
+                "c": ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'z'],
+                "C": ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z', 'ch', 'gn']
+            };
+            function createName() {
+                var howMany = Number(document.getElementById("howMany").value);
+                var structure = document.getElementById("structure").value;
+                document.getElementById("console").innerHTML = '';
+                for (var j = 0; j < howMany; j++) {
+                    var name = '';
+                    for (var i = 0; i < structure.length; i++) {
+                        if (letters[structure[i]] !== undefined) {
+                            var lt = letters[structure[i]];
+                            var letter = lt[Math.floor(Math.random() * lt.length)];
+                            name = concatSyllabe(name, letter);
+                        } else {
+                            document.getElementById("console").innerHTML = 'La structure doit être une suite de "c", "v", "C" or "V"';
+                            return ;
+                        }
+                    }
+                    document.getElementById("console").innerHTML += name+"<br />";
+                }
+            }
+            
+            function concatSyllabe(word, syllabe) {
+              if (word.length === 0) {
+                return syllabe;
+              }
+              var previousLetter = word[word.length -1];
+              if (previousLetter == "g") {
+                if (syllabe[0] == "e" || syllabe[0] == "i" || syllabe[0] == "y") {
+                  return word + "u" + syllabe;
+                }
+              }
+              
+              if (previousLetter == "s") {
+                if (word.length >= 2) {
+                  var antePreviousLetter = word[word.length - 2];
+                  if (isVoyelle(antePreviousLetter)) {
+                  return word + "s" + syllabe;
+                  }
+                }
+              }
+            
+              return word + syllabe;
+            }
+            
+            function isVoyelle(letter) {
+              return ["a", "â", "à", "e", "ê", "é", "è", "i", "o", "u", "ù", "û", "y"].indexOf(letter) != -1;
+            }
+            
+            function createNameFromDate() {
+                var dateStr = document.getElementById("date").value;
+                var date = new Date(document.getElementById("date").value);
+                if (!dateStr || !date) {
+                    date = new Date();
+                }
+                var minTimestamp = Math.floor(date.getTime() / 1000 / 60);
+                var coefs = minTimestampToSixCoefs(minTimestamp);
+                var name = letters["C"][coefs[0]] + letters["V"][coefs[1]]
+                + letters["C"][coefs[2]] + letters["V"][coefs[3]]
+                + letters["C"][coefs[4]] + letters["V"][coefs[5]];
+                document.getElementById("nameDate").innerHTML = "Pour la date " + formatDate(date)
+                + " (ts="+minTimestamp+") le mon est: "+name;
+            }
+
+            function minTimestampToSixCoefs(minTimestamp) {
+                var coefs = [0,0,0,0,0,0];
+
+                coefs[5] = minTimestamp % 14;
+                minTimestamp = Math.floor(minTimestamp / 14);
+                coefs[4] = minTimestamp % 18;
+                minTimestamp = Math.floor(minTimestamp / 18);
+
+                coefs[3] = minTimestamp % 14;
+                minTimestamp = Math.floor(minTimestamp / 14);
+                coefs[2] = minTimestamp % 18;
+                minTimestamp = Math.floor(minTimestamp / 18);
+
+                coefs[1] = minTimestamp % 14;
+                minTimestamp = Math.floor(minTimestamp / 14);
+                coefs[0] = minTimestamp % 18;
+                minTimestamp = Math.floor(minTimestamp / 18);
+
+                return coefs;
+            }
+
+            function SixCoefsTominTimestamp(coefs) {
+                minTimestamp = coefs[0] * 18
+                 * coefs[1] * 14 
+                 * coefs[2] * 18
+                 * coefs[3] * 14 
+                 * coefs[4] * 18
+                 * coefs[5] * 14;
+                return minTimestamp;
+            }
+
+            function formatDate(d) {
+                return ""+d.getFullYear()+"/"+(d.getMonth()+1)+"/"+d.getDay()
+                +" "+d.getHours()+":"+d.getMinutes();
+            }
+            
+            function unitTests() {
+              document.getElementById("testResults").innerHTML = "";
+              var tests = [
+                ["Voyelle a", isVoyelle, true, "a"],
+                ["Voyelle â", isVoyelle, true, "â"],
+                ["Voyelle à", isVoyelle, true, "à"],
+                ["Voyelle e", isVoyelle, true, "e"],
+                ["Voyelle ê", isVoyelle, true, "ê"],
+                ["Voyelle é", isVoyelle, true, "é"],
+                ["Voyelle è", isVoyelle, true, "è"],
+                ["Voyelle i", isVoyelle, true, "i"],
+                ["Voyelle o", isVoyelle, true, "o"],
+                ["Voyelle u", isVoyelle, true, "u"],
+                ["Voyelle û", isVoyelle, true, "û"],
+                ["Voyelle ù", isVoyelle, true, "ù"],
+                ["Voyelle y", isVoyelle, true, "y"],
+                ["Voyelle b", isVoyelle, false, "b"],
+                ["Voyelle c", isVoyelle, false, "c"],
+                ["Voyelle d", isVoyelle, false, "d"],
+                ["concatSyllabe a+a=aa",  concatSyllabe, "aa",  "a",  "a"],
+                ["concatSyllabe g+e=gue", concatSyllabe, "gue", "g",  "e"],
+                ["concatSyllabe g+i=gui", concatSyllabe, "gui", "g",  "i"],
+                ["concatSyllabe g+a=ga",  concatSyllabe, "ga",  "g",  "a"],
+                ["concatSyllabe g+l=gl",  concatSyllabe, "gl",  "g",  "l"],
+                ["concatSyllabe s+a=sa",  concatSyllabe, "sa",  "s",  "a"],
+                ["concatSyllabe s+r=sr",  concatSyllabe, "sr",  "s",  "r"],
+                ["concatSyllabe cs+i=csi", concatSyllabe, "csi", "cs", "i"],
+                ["concatSyllabe as+e=asse", concatSyllabe, "asse", "ass", "e"]
+              ];
+              for (var testIndex = 0; testIndex < tests.length; testIndex++) {
+                var test = tests[testIndex];
+                execTest(...test);
+              }
+            }
+            
+            function execTest(testName, callbackTest, expected, ...args) {
+              var actual = callbackTest(...args);
+              testing(testName, actual, expected);
+            }
+            
+            function testing(testName, actual, expected) {
+              if (actual == expected) {
+                document.getElementById("testResults").innerHTML += "OK: " + testName+"<br />";
+              } else {
+                document.getElementById("testResults").innerHTML += "FAIL: "+testName+" "+actual+" != "+expected+"<br />";
+              }
+            }
+        </script>
+    </head>
+    <body id="body">
+    <h1>Générateur de noms aléatoire</h1>
+    <table>
+        <tr>
+            <th><label for="howMany">Combien générer de noms</label></th>
+            <td><input type="number" id="howMany" value="10" /></td>
+        </tr>
+        <tr>
+            <th><label for="structure">Structure<br/>
+                (v=voyelle, c=consonne) ou<br/>
+                (V, C) avancée</label> </th>
+            <td><input type="text" id="structure" value="cvcvcv" /></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="button" onclick="createName()" value="créer le nom" /></td>
+        </tr>
+    </table>
+    Résultat :<br />
+    <div id="console"></div>
+    <!--
+    <div>
+        Note sur la prononciation:<br />
+        Le "e" se prononce tout le temps comme dans "petit".<br />
+        Le "g" se prononce tout le temps comme dans "guitare".<br />
+        Le "s" se prononce tout le temps comme dans "soupe".<br />
+    </div>
+    -->
+    <h2>Générateur de noms pour une date</h2>
+    <table>
+        <tr>
+            <th><label for="howMany">Date</label></th>
+            <td><input type="datetime-local" id="date" /></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="button" onclick="createNameFromDate()" value="créer le nom" /></td>
+        </tr>
+    </table>
+    <div id="nameDate"></div>
+    <div id="testResults" onclick="unitTests();">*</div>
+    </body>
+</html>
