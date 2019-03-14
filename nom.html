@@ -67,7 +67,7 @@
                 if (word.length >= 2) {
                   var antePreviousLetter = word[word.length - 2];
                   if (isVoyelle(antePreviousLetter)) {
-                  return word + "s" + syllabe;
+                    return word + "s" + syllabe;
                   }
                 }
               }
@@ -80,39 +80,58 @@
             }
             
             function createNameFromDate() {
-                var dateStr = document.getElementById("date").value;
-                var date = new Date(document.getElementById("date").value);
-                if (!dateStr || !date) {
-                    date = new Date();
-                }
-                var minTimestamp = Math.floor(date.getTime() / 1000 / 60);
-                var coefs = minTimestampToSixCoefs(minTimestamp);
-                var name = letters["C"][coefs[0]] + letters["V"][coefs[1]]
-                + letters["C"][coefs[2]] + letters["V"][coefs[3]]
-                + letters["C"][coefs[4]] + letters["V"][coefs[5]];
-                document.getElementById("nameDate").innerHTML = "Pour la date " + formatDate(date)
-                + " (ts="+minTimestamp+") le mon est: "+name;
+              var dateStr = document.getElementById("date").value;
+              var date = new Date(document.getElementById("date").value);
+              if (!dateStr || !date) {
+                  date = new Date();
+              }
+              var name = dateToName(date);
+              
+              document.getElementById("nameDate").innerHTML = "Pour la date " + formatDate(date)
+              + " (ts="+minTimestamp+") le mon est: "+name;
+            }
+            
+            function dateToName(date) {
+              var voyelles = ['a', 'e', 'i', 'o', 'u', 'an', 'in', 'on', 'ou', 'é', 'è', 'y', 'eu', 'oi'];
+              var consonnes = ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z', 'ch', 'gn'];
+
+              var minTimestamp = Math.floor(date.getTime() / 1000 / 60);
+              var coefs = minTimestampToSixCoefs(minTimestamp);
+              return consonnes[coefs[0]] + voyelles[coefs[1]]
+              + consonnes[coefs[2]] + voyelles[coefs[3]]
+              + consonnes[coefs[4]] + voyelles[coefs[5]];
+            }
+
+            function nameToSixCoefs(name) {
+              var voyelles = ['a', 'e', 'i', 'o', 'u', 'an', 'in', 'on', 'ou', 'é', 'è', 'y', 'eu', 'oi'];
+              var consonnes = ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z', 'ch', 'gn'];
+                            
+              var minTimestamp = Math.floor(date.getTime() / 1000 / 60);
+              var coefs = minTimestampToSixCoefs(minTimestamp);
+              return consonnes[coefs[0]] + voyelles[coefs[1]]
+              + consonnes[coefs[2]] + voyelles[coefs[3]]
+              + consonnes[coefs[4]] + voyelles[coefs[5]];
             }
 
             function minTimestampToSixCoefs(minTimestamp) {
-                var coefs = [0,0,0,0,0,0];
+              var coefs = [0,0,0,0,0,0];
 
-                coefs[5] = minTimestamp % 14;
-                minTimestamp = Math.floor(minTimestamp / 14);
-                coefs[4] = minTimestamp % 18;
-                minTimestamp = Math.floor(minTimestamp / 18);
+              coefs[5] = minTimestamp % 14;
+              minTimestamp = Math.floor(minTimestamp / 14);
+              coefs[4] = minTimestamp % 18;
+              minTimestamp = Math.floor(minTimestamp / 18);
 
-                coefs[3] = minTimestamp % 14;
-                minTimestamp = Math.floor(minTimestamp / 14);
-                coefs[2] = minTimestamp % 18;
-                minTimestamp = Math.floor(minTimestamp / 18);
+              coefs[3] = minTimestamp % 14;
+              minTimestamp = Math.floor(minTimestamp / 14);
+              coefs[2] = minTimestamp % 18;
+              minTimestamp = Math.floor(minTimestamp / 18);
 
-                coefs[1] = minTimestamp % 14;
-                minTimestamp = Math.floor(minTimestamp / 14);
-                coefs[0] = minTimestamp % 18;
-                minTimestamp = Math.floor(minTimestamp / 18);
+              coefs[1] = minTimestamp % 14;
+              minTimestamp = Math.floor(minTimestamp / 14);
+              coefs[0] = minTimestamp % 18;
+              minTimestamp = Math.floor(minTimestamp / 18);
 
-                return coefs;
+              return coefs;
             }
 
             function SixCoefsTominTimestamp(coefs) {
