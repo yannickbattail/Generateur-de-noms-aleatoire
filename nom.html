@@ -79,6 +79,9 @@
               return ["a", "â", "à", "e", "ê", "é", "è", "i", "o", "u", "ù", "û", "y"].indexOf(letter) != -1;
             }
             
+            var voyelles = ['a', 'e', 'i', 'o', 'u', 'an', 'in', 'on', 'ou', 'é', 'è', 'y', 'eu', 'oi'];
+            var consonnes = ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z', 'ch', 'gn'];
+
             function createNameFromDate() {
               var dateStr = document.getElementById("date").value;
               var date = new Date(document.getElementById("date").value);
@@ -92,9 +95,6 @@
             }
             
             function dateToName(date) {
-              var voyelles = ['a', 'e', 'i', 'o', 'u', 'an', 'in', 'on', 'ou', 'é', 'è', 'y', 'eu', 'oi'];
-              var consonnes = ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z', 'ch', 'gn'];
-
               var minTimestamp = Math.floor(date.getTime() / 1000 / 60);
               var coefs = minTimestampToSixCoefs(minTimestamp);
               return consonnes[coefs[0]] + voyelles[coefs[1]]
@@ -102,15 +102,8 @@
               + consonnes[coefs[4]] + voyelles[coefs[5]];
             }
 
-            function nameToSixCoefs(name) {
-              var voyelles = ['a', 'e', 'i', 'o', 'u', 'an', 'in', 'on', 'ou', 'é', 'è', 'y', 'eu', 'oi'];
-              var consonnes = ['b', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z', 'ch', 'gn'];
-                            
-              var minTimestamp = Math.floor(date.getTime() / 1000 / 60);
-              var coefs = minTimestampToSixCoefs(minTimestamp);
-              return consonnes[coefs[0]] + voyelles[coefs[1]]
-              + consonnes[coefs[2]] + voyelles[coefs[3]]
-              + consonnes[coefs[4]] + voyelles[coefs[5]];
+            function nameToSixCoefs(name) {           
+              return [0,0,0,0,0,0];
             }
 
             function minTimestampToSixCoefs(minTimestamp) {
@@ -218,23 +211,25 @@
     </table>
     Résultat :<br />
     <div id="console"></div>
-    <!--
-    <div>
-        Note sur la prononciation:<br />
-        Le "e" se prononce tout le temps comme dans "petit".<br />
-        Le "g" se prononce tout le temps comme dans "guitare".<br />
-        Le "s" se prononce tout le temps comme dans "soupe".<br />
-    </div>
-    -->
     <h2>Générateur de noms pour une date</h2>
     <table>
         <tr>
-            <th><label for="howMany">Date</label></th>
+            <th><label for="date">Date</label></th>
             <td><input type="datetime-local" id="date" /></td>
         </tr>
         <tr>
             <th></th>
             <td><input type="button" onclick="createNameFromDate()" value="créer le nom" /></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th><label for="name">Nom</label></th>
+            <td><input type="datetime-local" id="name" /></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="button" onclick="createNameFromDate()" value="Récupérer la date" /></td>
         </tr>
     </table>
     <div id="nameDate"></div>
