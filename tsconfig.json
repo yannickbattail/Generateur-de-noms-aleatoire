@@ -2,11 +2,14 @@
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitAny": true,
+    "strictNullChecks": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },
   "files": [
-    "incr.ts"
+    "incrEngine.ts",
+    "incr.ts",
+    "gui.ts"
   ]
 }

@@ -25,12 +25,22 @@
             }
         </style>
         <title>incr</title>
+        <script src="incrEngine.js"></script>
         <script src="incr.js"></script>
+        <script src="gui.js"></script>
     </head>
     <body id="body">
         incr<br />
+        <div id="storage"></div>
+        <div id="sources"></div>
         <script>
             engine.run();
+            var gui = new IncrGui(engine);
+            function updateGui() {
+                document.getElementById('storage').innerHTML = gui.displayStorage();
+                document.getElementById('sources').innerHTML = gui.displaySources();
+            }
+            window.setInterval(updateGui, 1000);
         </script>
     </body>
 </html>
